@@ -1,0 +1,56 @@
+body {
+  padding: 0px;
+  margin: 0px;
+  width: 220px;
+  height: 30px;
+  border: 0px;
+}
+
+#dx {
+  width: 20px;
+  height: 30px;
+  background: #232323;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  cursor: default;
+ }
+
+#d0 {
+  width: 200px;
+  height: 30px;
+  background: #232323;
+  border: 0px;
+  position: fixed;
+  top: 0px;
+  left: 20px;
+  color: lightgray;
+  font-family:Arial;
+  font-size: 10px;
+  font-weight: lighter;
+  font-style: normal;
+  text-align: center;
+  cursor: default;
+ }
+
+#p0 {
+  width: 200px;
+  height: 30px;
+  border: 0px;
+  padding: 0px;
+  background: #232323;
+  color: lightgray;
+  font-family:Arial;
+  font-size:10px;
+  font-weight: lighter;
+  font-style: italic;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+  top: 0px;
+  left: 20px;
+  cursor: default;
+ }

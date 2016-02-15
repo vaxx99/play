@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="css/swiss.css">
+  <script>
+
+  var i = 0;
+
+  var sr =
+  [
+      { sn: "http://stream.srg-ssr.ch/m/rsj/aacp_96", tl: "Radio Swiss Jazz", src:"http://www.radioswissjazz.ch/en"},
+      { sn: "http://uk1.internet-radio.com:8106/;", tl: "UK Dance Radio", src:"http://uk1.internet-radio.com:8106/"},
+      { sn: "http://us1.internet-radio.com:8050/;", tl: "US Bass Radio",src:"http://us1.internet-radio.com:8050/"},
+      { sn: "http://us1.internet-radio.com:8180/;", tl: "Easy Hits Florida",src:"http://us1.internet-radio.com:8180/"},
+      { sn: "http://electronicmusic.fm:8042/;", tl: "EMFM techno",src:"http://electronicmusic.fm:8042/"}, /*electronicmusic.fm*/
+      { sn: "http://electronicmusic.fm:8002/;", tl: "EMFM deep",src:"http://electronicmusic.fm:8002/"}    /*electronicmusic.fm*/
+  ];
+
+
+  function rwnd(){
+    var al = document.getElementById("al");
+    var cl = document.getElementById("cl");
+    var d0 = document.getElementById("d0");
+    al.pause();
+    cl.style.fill='#232323';
+    i++;
+    if (i==sr.length){i=0};
+    d0.innerHTML='<p id=p0>'+sr[i].tl+'</p>';
+  }
+
+  function rest(){
+    i=0;
+  }
+
+  function play(){
+    var al = document.getElementById("al");
+    var cl = document.getElementById("cl");
+    var d0 = document.getElementById("d0");
+
+    if (al.paused) {
+      al.src=sr[i].sn;
+      al.play();
+      cl.style.fill="red";
+    } else {
+      al.pause();
+      cl.style.fill="#232323";
+    }
+  }
+
+
+  function httpGet(theUrl)
+  {
+    var xmlHttp = null;
+
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false );
+    xmlHttp.send(null);
+    return xmlHttp.responseText;
+  }
+
+  function over() {
+    var d0 = document.getElementById("d0");
+    var a = httpGet(sr[i].src);
+    if (i!=0){
+    var a = a.substr(a.search('Current Song'),a.length-1);
+    var a = a.substr(a.search('<b>')+3,a.search('</b>'));
+    d0.innerHTML='<p id=p0>' + a + '</p>'}else{
+      var a = a.substr(a.search('class="current-airplay"'),a.length-1);
+      var b = a.substr(a.search('<span class="titletag">')+23,a.length-1);
+      var c = b.substr(b.search('<span class="artist">')+21,a.length-1);
+      var b = b.substr(0,b.search('</span></span>'));
+      var c = c.substr(0,c.search('</span>'));
+      d0.innerHTML= '<p id=p0>'+ c + " &bull; "  + b +'</p>';
+     }
+    }
+
+   function out(){
+      var d0 = document.getElementById("d0");
+      d0.innerHTML ='<p>'+sr[i].tl+'</p>';
+    }
+
+  function vol(delta) {
+    vl=document.getElementById("al").volume;
+    if (delta < 0){vl-=0.05;}else{vl+=0.05;}
+    document.getElementById("al").volume=vl;
+  }
+
+  function wheel(event){
+    var delta = 0;
+    if (!event) event = window.event;
+      if (event.wheelDelta) {
+        delta = event.wheelDelta/120;
+        if (window.opera) delta = -delta;
+      } else if (event.detail) {
+        delta = -event.detail/3;
+      }
+    if (delta)
+    vol(delta);
+}
+
+if (window.addEventListener)
+  window.addEventListener('DOMMouseScroll', wheel, false);
+  window.onmousewheel = document.onmousewheel = wheel;
+
+ </script>
+</head>
+<body>
+  <div id=dx>
+    <audio id=al autobuffer></audio>
+    <svg width="20" height="30" onclick=play() oncontextmenu=rwnd() onmousewheel=vol(delta) ondblclick=rest() onmouseover=over() onmouseout=out()>
+      <polygon id=pl points="0,0 15,0 20,15 15,30, 0,30" style="fill:lightgray;fill-rule:evenodd;"/>
+      <circle id=cl cx="9" cy="15" r="3" stroke="" stroke-width="0" fill="#232323"/>
+
+  </div>
+  <div id=d0></div>
+</body>
+</html>

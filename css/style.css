@@ -1,0 +1,53 @@
+body {
+    background-color: #232323;
+}
+
+h1 {
+    color: yellow;
+    font-family: Arial;
+    font-weight: lighter;
+    font-size: 10px;
+    position: absolute;
+    left:  40px;
+    top: 4px;
+}
+
+h2 {
+    color: gray;
+    font-family: Arial;
+    font-weight: lighter;
+    font-size: 12px;
+    position: absolute;
+    left:  90px;
+    top: 1px;
+}
+
+
+p {
+    color: white;
+}
+
+text {
+	text-anchor: middle;
+	pointer-events: auto; /* Cancel the svg’s pointer-events */
+	fill: currentColor;
+}
+
+img {height:20px;}
+div {height:20px;}
+
+audio:nth-child(2) { width: 200px; }
+audio:nth-child(3) { width: 200px; }
+
+audio {
+  width: 200px; display: block; margin:10px;
+  transition:all 0.5s linear;
+  box-shadow: 2px 2px 4px 0px #354749;
+  border-radius:7px 7px 7px 7px ;
+}
+
+audio:hover, audio:focus, audio:active
+{
+  box-shadow: 15px 15px 20px rgba(0,0,0,0.4);
+  transform: scale(1.05);
+}

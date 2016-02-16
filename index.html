@@ -40,13 +40,33 @@
     if (al.paused) {
       al.src=sr[i].sn;
       al.play();
-      cl.style.fill="red";
+      //cl.style.fill="red";
+      anim(0);
     } else {
       al.pause();
-      cl.style.fill="#232323";
+      //cl.style.fill="#232323";
+      anim(1);
     }
   }
 
+  function anim(i){
+    var ca = document.getElementById("ca");
+    if (i==0){
+      ca.setAttribute("from",3);
+      ca.setAttribute("to",5);
+      ca.setAttribute("begin","0s");
+      ca.setAttribute("dur","1s");
+      ca.setAttribute("fill","remove");
+      ca.setAttribute("repeatCount","indefinite");
+    }else{
+      ca.setAttribute("from",3);
+      ca.setAttribute("to",0);
+      ca.setAttribute("begin","");
+      ca.setAttribute("dur","");
+      ca.setAttribute("fill","");
+      ca.setAttribute("repeatCount","");
+    }
+  }
 
   function httpGet(theUrl)
   {
@@ -109,8 +129,9 @@ if (window.addEventListener)
     <audio id=al autobuffer></audio>
     <svg width="20" height="30" onclick=play() oncontextmenu=rwnd() onmousewheel=vol(delta) ondblclick=rest() onmouseover=over() onmouseout=out()>
       <polygon id=pl points="0,0 15,0 20,15 15,30, 0,30" style="fill:lightgray;fill-rule:evenodd;"/>
-      <circle id=cl cx="9" cy="15" r="3" stroke="" stroke-width="0" fill="#232323"/>
-
+      <circle id=cl cx="9" cy="15" r="3" stroke="" stroke-width="0" fill="#232323">
+        <animate id=ca attributeName="r" attributeType="XML"/>
+      </circle>
   </div>
   <div id=d0></div>
 </body>

@@ -40,11 +40,11 @@
     if (al.paused) {
       al.src=sr[i].sn;
       al.play();
-      //cl.style.fill="red";
+      cl.style.fill="red";
       anim(0);
     } else {
       al.pause();
-      //cl.style.fill="#232323";
+      cl.style.fill="#232323";
       anim(1);
     }
   }
@@ -52,7 +52,7 @@
   function anim(i){
     var ca = document.getElementById("ca");
     if (i==0){
-      ca.setAttribute("from",3);
+      ca.setAttribute("from",0);
       ca.setAttribute("to",5);
       ca.setAttribute("begin","0s");
       ca.setAttribute("dur","1s");

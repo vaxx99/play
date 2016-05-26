@@ -7,9 +7,8 @@
   var i = 0;
 
   var sr =
-  [
-      { sn: "http://stream.srg-ssr.ch/m/rsj/aacp_96", tl: "Radio Swiss Jazz", src:"http://www.radioswissjazz.ch/en"},
-      { sn: "http://uk1.internet-radio.com:8106/;", tl: "UK Dance Radio", src:"http://uk1.internet-radio.com:8106/"},
+  [   { sn: "http://stream.srg-ssr.ch/m/rsj/aacp_96", tl: "Radio Swiss Jazz", src:"http://www.radioswissjazz.ch/en"},
+      { sn: "http://195.248.234.62:8000/radioskovoroda", tl: "Radio Skovoroda", src:"http://195.248.234.62:8000/"},
       { sn: "http://uk3.internet-radio.com:8126/;", tl: "Motown Magic Oldies", src:"http://uk3.internet-radio.com:8126/"},
       { sn: "http://us1.internet-radio.com:8180/;", tl: "Easy Hits Florida",src:"http://us1.internet-radio.com:8180/"},
       { sn: "http://electronicmusic.fm:8042/;", tl: "EMFM techno",src:"http://electronicmusic.fm:8042/"}, /*electronicmusic.fm*/
@@ -81,16 +80,21 @@
   function over() {
     var d0 = document.getElementById("d0");
     var a = httpGet(sr[i].src);
-    if (i!=0){
+    if (i==1){
+    var a = a.substr(a.search('Current Song:'),a.length-1);
+    var b = a.substr(a.search('<td class="streamdata">')+23,a.length-1);
+    d0.innerHTML='<p id=p0>' + b + '</p>'}
+    if (i>1){
     var a = a.substr(a.search('Current Song'),a.length-1);
     var a = a.substr(a.search('<b>')+3,a.search('</b>'));
-    d0.innerHTML='<p id=p0>' + a + '</p>'}else{
+    d0.innerHTML='<p id=p0>' + a + '</p>'}
+    if (i==0){
       var a = a.substr(a.search('class="current-airplay"'),a.length-1);
       var b = a.substr(a.search('<span class="titletag">')+23,a.length-1);
       var c = b.substr(b.search('<span class="artist">')+21,a.length-1);
       var b = b.substr(0,b.search('</span></span>'));
       var c = c.substr(0,c.search('</span>'));
-      d0.innerHTML= '<p id=p0>'+ c + " &bull; "  + b +'</p>';
+      d0.innerHTML= '<p id=p0>'+ c + " &bull; "  + b + '</p>';
      }
     }
 

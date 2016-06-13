@@ -10,7 +10,8 @@
   [   { sn: "http://stream.srg-ssr.ch/m/rsj/aacp_96", tl: "Radio Swiss Jazz", src:"http://www.radioswissjazz.ch/en"},
       { sn: "http://195.248.234.62:8000/radioskovoroda", tl: "Radio Skovoroda", src:"http://195.248.234.62:8000/"},
       { sn: "http://uk3.internet-radio.com:8126/;", tl: "Motown Magic Oldies", src:"http://uk3.internet-radio.com:8126/"},
-      { sn: "http://us1.internet-radio.com:8180/;", tl: "Easy Hits Florida",src:"http://us1.internet-radio.com:8180/"},
+      { sn: "http://us1.internet-radio.com:8180/;", tl: "Easy Hits Florida", src:"http://us1.internet-radio.com:8180/"},
+      { sn: "http://us2.internet-radio.com:8191/;", tl: "Classic Rock Miami", src:"http://us2.internet-radio.com:8191/"},
       { sn: "http://electronicmusic.fm:8042/;", tl: "EMFM techno",src:"http://electronicmusic.fm:8042/"}, /*electronicmusic.fm*/
       { sn: "http://electronicmusic.fm:8002/;", tl: "EMFM deep",src:"http://electronicmusic.fm:8002/"}    /*electronicmusic.fm*/
   ];
@@ -81,13 +82,21 @@
     var d0 = document.getElementById("d0");
     var a = httpGet(sr[i].src);
     if (i==1){
-    var a = a.substr(a.search('Current Song:'),a.length-1);
+    var a = a.substr(a.search('Current Song'),a.length-1);
     var b = a.substr(a.search('<td class="streamdata">')+23,a.length-1);
     d0.innerHTML='<p id=p0>' + b + '</p>'}
-    if (i>1){
+    if (i==2){
     var a = a.substr(a.search('Current Song'),a.length-1);
     var a = a.substr(a.search('<b>')+3,a.search('</b>'));
     d0.innerHTML='<p id=p0>' + a + '</p>'}
+    if (i==3){
+    var a = a.substr(a.search('Current Song'),a.length-1);
+    var a = a.substr(a.search('<b>')+3,a.search('</b>'));
+    d0.innerHTML='<p id=p0>' + a + '</p>'}
+    if (i==4){
+    var b = a.substr(a.search('Current Song')+30, 100);
+    var c = b.substr(b.search('<a href="currentsong?sid=1">')+25, b.search('</a></b></td></tr>'));
+    d0.innerHTML='<p id=p0>' + c + '</p>'}
     if (i==0){
       var a = a.substr(a.search('class="current-airplay"'),a.length-1);
       var b = a.substr(a.search('<span class="titletag">')+23,a.length-1);
@@ -96,7 +105,7 @@
       var c = c.substr(0,c.search('</span>'));
       d0.innerHTML= '<p id=p0>'+ c + " &bull; "  + b + '</p>';
      }
-    }
+   }
 
    function out(){
       var d0 = document.getElementById("d0");

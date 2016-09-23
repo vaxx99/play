@@ -78,7 +78,7 @@
     return xmlHttp.responseText;
   }
 
-  function over() {
+  function out() {
     var d0 = document.getElementById("d0");
     var a = httpGet(sr[i].src);
     if (i==1){
@@ -115,7 +115,7 @@
      }
    }
 
-   function out(){
+   function over(){
       var d0 = document.getElementById("d0");
       d0.innerHTML ='<p>'+sr[i].tl+'</p>';
     }
@@ -142,6 +142,8 @@
 if (window.addEventListener)
   window.addEventListener('DOMMouseScroll', wheel, false);
   window.onmousewheel = document.onmousewheel = wheel;
+
+window.setInterval(out, 10000);
 
  </script>
 </head>

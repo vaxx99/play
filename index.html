@@ -79,8 +79,10 @@
     var d0 = document.getElementById("d0");
     var a = httpGet(sr[i].src);
     if (i==1){
-      var b = a.substr(a.search('Current Song')+30, 100);
-      var c = b.substr(b.search('<a href="currentsong?sid=1">')+25, b.search('</a></b></td></tr>'));
+      var b = a.substr(a.search('Current Song')+25, 100);
+      var c = b.substr(b.search('<a href="currentsong?sid=1">')+30, b.search('</a></b>'));
+      var c = c.replace(/(&nbsp;|<([^>]+)>)/ig, "");
+      var c = c.replace("</b", "");
       d0.innerHTML='<p id=p0>' + c + '</p>'}
     if (i==2){
     var a = a.substr(a.search('Current Song'),a.length-1);

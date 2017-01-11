@@ -1,45 +1,73 @@
-var app = require('app');
-var BrowserWindow = require('browser-window');
-require('crash-reporter').start();
-//var mainWindow = null;
-app.commandLine.appendSwitch('enable-transparent-visuals');
-app.commandLine.appendSwitch('proxy-server', 'localhost:3128');
-const electron = require('electron');
-const globalShortcut = electron.globalShortcut;
-app.on('window-all-closed', function() {
-app.quit();
-});
-app.on('ready', function() {
-mainWindow = new BrowserWindow({width: 220,
-height: 30,
-darkTheme: true,
-transparent: true,
-resizable: false,
-frame: false,
-'skip-taskbar': true,
-x: 0,
-y: 738});
-mainWindow.setMenuBarVisibility(false);
-mainWindow.setTitle("Play.Vaxx!");
-mainWindow.setAlwaysOnTop(true);
-mainWindow.loadUrl('file://'+__dirname+'/index.html');
-// Emitted when the window is closed.
-var ret = globalShortcut.register('ctrl+q', function() {
-app.quit();
-});
-if (!ret) {
-console.log('registration failed');
+let play = require('child_process').spawn(__dirname+'/play')
+const {app, BrowserWindow} = require('electron')
+const path = require('path')
+const url = require('url')
+
+// Keep a global reference of the window object, if you don't, the window will
+// be closed automatically when the JavaScript object is garbage collected.
+let win
+//Keys
+const {globalShortcut} = require('electron')
+app.on('ready', () => {
+  const ret = globalShortcut.register('CommandOrControl+Q', () => {
+    app.quit();
+  })
+  if (!ret) {
+    console.log('registration failed')
+  }
+  //console.log(globalShortcut.isRegistered('CommandOrControl+X'))
+})
+
+app.on('will-quit', () => {
+  globalShortcut.unregister('CommandOrControl+Q')
+  globalShortcut.unregisterAll()
+})
+//End keys
+
+function createWindow () {
+  // Create the browser window.
+  win = new BrowserWindow({width: 220,height: 30,darkTheme: true,transparent: true,resizable: false,frame: false, x: 0,y: 738})
+  win.setAlwaysOnTop(false);
+  win.setMenuBarVisibility(false);
+  win.setSkipTaskbar(true);
+  win.setAlwaysOnTop(true);
+  // and load the index.html of the app.
+  win.loadURL('file://'+__dirname+'/index.html');
+  // Open the DevTools.
+  //win.webContents.openDevTools()
+
+  // Emitted when the window is closed.
+  win.on('closed', () => {
+    // Dereference the window object, usually you would store windows
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    play.kill('SIGKILL');
+    win = null
+  })
 }
-// Check whether a shortcut is registered.
-console.log(globalShortcut.isRegistered('ctrl+q'));
-});
-app.on('will-quit', function() {
-// Unregister a shortcut.
-globalShortcut.unregister('ctrl+q');
-// Unregister all shortcuts.
-globalShortcut.unregisterAll();
-mainWindow.on('closed', function() {
-mainWindow = null;
-app.quit();
-});
-});
+
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on('ready', createWindow)
+
+// Quit when all windows are closed.
+app.on('window-all-closed', () => {
+  // On macOS it is common for applications and their menu bar
+  // to stay active until the user quits explicitly with Cmd + Q
+  if (process.platform !== 'darwin') {
+    play.kill('SIGKILL');
+    app.quit()
+  }
+})
+
+app.on('activate', () => {
+  // On macOS it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (win === null) {
+    createWindow()
+  }
+})
+
+// In this file you can include the rest of your app's specific main process
+// code. You can also put them in separate files and require them here.
